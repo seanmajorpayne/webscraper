@@ -30,10 +30,14 @@ to save multiple copies of the website over time (like the wayback machine), or 
 Clone the repository
 
 ```
-git clone
+git clone git@github.com:seanmajorpayne/webscraper.git
 ```
 
-Here are the steps (omit sudo if not needed on your system):
+Navigate to the directory with the cloned repository.
+
+Run the following commands
+
+Omit sudo if not needed on your system:
 
 ```
 sudo docker build -t scraper .
