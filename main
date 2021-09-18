@@ -1,0 +1,41 @@
+#! /usr/bin/env python3
+import argparse
+from scrape import Scraper
+from utils import create_dir, read_metadata
+
+
+def fetch_urls(urls):
+    """
+    Initiates web scraping. Called if user passes 'urls' to
+    script arguments.
+
+    :param urls: list (str)
+    """
+    print("\nStarting to fetch...\n")
+    create_dir("fetch")
+    unique_urls = set(urls[1:])     # Remove 'urls' arg from list, better way to do this?
+    scraper = Scraper(unique_urls)
+    scraper.perform_scraping()
+    print("\nDone")
+
+
+def main():
+    """
+    Called for web scraping or to print stored metadata.
+    Expects bash arguments in format
+    ./main urls https://www.google.com https://www.twitter.com ...
+    ./main --metadata https://www.google.com https://www.twitter.com ...
+
+    TODO: Research cleaner way to deal with default case --metadata, what if more args?
+    :return:
+    """
+    parser = argparse.ArgumentParser(description='Scrape sites or print metadata')
+    parser.add_argument('urls', metavar='urls', type=str, nargs='+')
+    parser.add_argument('--metadata', dest='parse_metadata', action='store_const',
+                        const=read_metadata, default=fetch_urls, help='print metadata for scraped site')
+    args = parser.parse_args()
+    args.parse_metadata(args.urls)
+
+
+if __name__ == "__main__":
+    main()
